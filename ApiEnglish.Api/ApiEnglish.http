@@ -1,0 +1,6 @@
+@ApiEnglish_HostAddress = http://localhost:5222
+
+GET {{ApiEnglish_HostAddress}}/
+Accept: application/json
+
+###
