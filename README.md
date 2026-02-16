@@ -1,224 +1,125 @@
-🚀 English Path Game (EPG) – API
+🚀 *English Path Game (EPG) – API*
 
-English Path Game (EPG) is a SaaS-based platform designed to make English learning dynamic, engaging, and gamified.
+*English Path Game (EPG)* is a platform designed to transform English learning into a dynamic, interactive, and gamified experience.
 
-The core idea is to combine:
+Instead of passive content consumption, EPG applies game mechanics and structured progression to reinforce learning through engagement.
 
-🧩 Puzzles
+---
 
-🎯 Challenges
+🎮 *Core Learning Concept*
 
-🏆 Badges
+EPG combines:
 
-🎮 Missions
+- 🧩 Puzzles
 
-📚 Structured learning paths
+- 🎯 Challenges
 
-Instead of passive study, EPG focuses on interactive progression and game mechanics to reinforce learning.
+- 🏆 Achievement Badges
 
-🏗️ Architecture Overview
+- 🎮 Missions
 
-The project follows Clean Architecture principles, ensuring:
+- 📚 Structured Learning Paths
 
-Separation of concerns
+The goal is to create measurable progression and sustained motivation using gamification psychology.
 
-Scalability
+---
 
-Testability
+🏗️ *Architecture*
 
-Maintainability
+The project follows Clean Architecture principles combined with a CQRS-inspired approach using MediatR.
 
-Low coupling between layers
+*Architectural Goals*
 
-Current architecture layers:
+- Clear separation of concerns
 
-Domain
-Application
-Infrastructure
-API
+- Scalability
 
-The project is structured using a feature-based vertical slice approach, especially for authentication.
+- Testability
 
-🛠️ Tech Stack
-Backend
+- Maintainability
 
-.NET 10
+- Low coupling between layers
 
-C#
+- Vertical feature organization
 
-ASP.NET Core Web API
+🧱 *Layered Structure*
+-> API
+-> Application
+-> Domain
+-> Infrastructure
 
-Database
+🔹 *API Layer*
 
-PostgreSQL
+- HTTP contracts
 
-Entity Framework Core (Persistence layer)
+- Controllers
 
-Authentication & Security
+- Request/Response models
 
-ASP.NET Identity (planned integration)
+- No business logic
 
-JWT (Access Token)
+🔹 *Application Layer*
 
-Refresh Token (planned for session continuity)
+- Commands
 
-BCrypt password hashing
+- Handlers (CQRS pattern)
 
-FluentValidation
+- Validation (FluentValidation)
 
-MediatR
+- Business orchestration
 
-Command/Handler pattern (CQRS approach)
+- MediatR pipeline behaviors
 
-Frontend
+🔹 *Domain Layer*
 
-React (planned, not implemented yet)
+- Core entities
 
-🔐 Authentication Module (Current Focus)
+- Business rules
 
-The project currently implements a production-ready Authentication module, designed for SaaS scalability.
+- Domain abstractions
 
-Implemented Features
-✔ Register Endpoint
+🔹 *Infrastructure Layer*
 
-User account creation
+- PostgreSQL integration
 
-Password hashing with BCrypt
+- Entity Framework Core
 
-DTO validation using FluentValidation
+- JWT generation
 
-Clean separation between Request, Command, and Domain
+- Password hashing (BCrypt)
 
-Persistence in PostgreSQL
+- Repository implementations
 
-✔ Login Endpoint
+🛠️ *Tech Stack Backend*
 
-Credential validation
+- .NET 10
 
-Secure password verification
+- C#
 
-JWT Access Token generation
+- ASP.NET Core Web API
 
-Stateless authentication
+- MediatR
 
-🧠 Architectural Decisions
-1️⃣ Clean Architecture
+- FluentValidation
 
-Authentication logic is implemented inside the Application layer using:
+- CQRS (Command/Handler Pattern)
 
-RegisterCommand
+- Database
 
-LoginCommand
+- PostgreSQL
 
-Handlers
+- Entity Framework Core
 
-Response models
+- Security
 
-The API layer only handles HTTP contracts.
+- JWT (Access Token)
 
-Infrastructure is responsible for:
+- BCrypt Password Hashing
 
-PostgreSQL integration
+- Refresh Token (planned)
 
-JWT generation
+- Role & Claims-based authorization (planned)
 
-Password hashing
+- Frontend (Planned)
 
-Repository implementation
-
-2️⃣ Security Approach
-
-Passwords are never stored in plain text
-
-BCrypt hashing algorithm
-
-Short-lived JWT tokens
-
-Stateless authentication
-
-Separation between validation and persistence logic
-
-3️⃣ Validation Strategy
-
-FluentValidation is used to:
-
-Validate DTOs before business logic execution
-
-Enforce password rules
-
-Enforce email format
-
-Keep controllers clean
-
-📂 Current Project Structure (Simplified)
-
-API
- └── Controllers
-      └── AuthController
-
-Application
- └── Features
-      └── Auth
-           ├── Register
-           ├── Login
-           └── Handlers
-
-Infrastructure
- ├── Persistence (PostgreSQL)
- ├── Jwt
- └── Identity / Security
-
-Domain
- └── Core Entities (User - evolving)
-
-
-🎯 Project Goals
-
-Build a scalable SaaS architecture
-
-Implement secure authentication from scratch
-
-Apply Clean Architecture correctly
-
-Prepare system for:
-
-Multi-tenant evolution
-
-Subscription plans
-
-Gamification engine
-
-Ranking system
-
-Progress tracking
-
-Mobile expansion
-
-📈 Roadmap
-🔜 Next Steps
-
-Refresh Token implementation
-
-Email confirmation flow
-
-Password reset flow
-
-Role & Claim-based authorization
-
-User progression model (XP, Levels, Streaks)
-
-Stripe integration (subscription model)
-
-React frontend implementation
-
-💡 Vision
-
-EPG is designed not just as a study tool, but as a scalable SaaS platform that:
-
-Encourages consistent learning
-
-Uses gamification psychology
-
-Tracks measurable progress
-
-Can evolve into a commercial product
+- React
