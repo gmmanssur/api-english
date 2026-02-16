@@ -1,3 +1,4 @@
+---
 🚀 *English Path Game (EPG) – API*
 
 *English Path Game (EPG)* is a platform designed to transform English learning into a dynamic, interactive, and gamified experience.
@@ -41,6 +42,8 @@ The project follows Clean Architecture principles combined with a CQRS-inspired 
 - Low coupling between layers
 
 - Vertical feature organization
+
+---
 
 🧱 *Layered Structure*
 -> API
