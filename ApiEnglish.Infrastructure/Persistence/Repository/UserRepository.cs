@@ -27,9 +27,9 @@ namespace ApiEnglish.Infrastructure.Persistence.Repository
             return _users.FirstOrDefault(u => u.Username == username);
         }
 
-        public User? GetUserByEmail(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return _users.FirstOrDefault(u => u.Email == email);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public Task<bool> UsernameExistsAsync(string username)

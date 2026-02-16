@@ -20,22 +20,22 @@ public sealed class RegisterCommandHandler(IUserRepository userRepository,
     {
         string hashedPassword = _passwordHasher.Hash(request.Password);
 
-            User user = new()
-            {
-                Name = request.Name,
-                Username = request.Username,
-                Email = request.Email,
-                PasswordHash = hashedPassword,
-                CreatedAt = DateTime.UtcNow,
-                Active = true
-            };
+        User user = new()
+        {
+            Name = request.Name,
+            Username = request.Username,
+            Email = request.Email,
+            PasswordHash = hashedPassword,
+            CreatedAt = DateTime.UtcNow,
+            Active = true
+        };
 
-            await _userRepository.RegisterUserAsync(user);
-            
-            return new RegisterResponse { 
-                Name = user.Name,
-                Username = user.Username,
-                Email = user.Email
-            };
+        await _userRepository.RegisterUserAsync(user);
+        
+        return new RegisterResponse { 
+            Name = user.Name,
+            Username = user.Username,
+            Email = user.Email
+        };
     }
 }

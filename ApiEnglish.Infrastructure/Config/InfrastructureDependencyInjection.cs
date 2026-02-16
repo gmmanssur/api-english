@@ -19,6 +19,8 @@ public static class InfrastructureDependencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
         
         return services;
     }
