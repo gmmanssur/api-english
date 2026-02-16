@@ -1,13 +1,16 @@
+using ApiEnglish.Application.Config;
+using ApiEnglish.Infrastructure.Config;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionar serviços
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-// Habilitar Swagger apenas em desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -18,4 +21,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
