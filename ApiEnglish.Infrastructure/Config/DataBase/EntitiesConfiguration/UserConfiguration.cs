@@ -13,7 +13,6 @@ namespace ApiEnglish.Infrastructure.Config.DataBase.EntitiesConfiguration
             builder.HasKey(e => e.Sequencial);
             builder.Property(e => e.Sequencial).HasColumnName("user_sequencial").ValueGeneratedOnAdd();
             builder.Property(e => e.Name).HasColumnName("user_name").IsRequired().HasMaxLength(100);
-            builder.Property(e => e.Username).HasColumnName("user_username").IsRequired().HasMaxLength(50);
             builder.Property(e => e.Email).HasColumnName("user_email").IsRequired().HasMaxLength(100);
             builder.Property(e => e.PasswordHash).HasColumnName("user_hash_password").IsRequired();
             builder.Property(e => e.CreatedAt).HasColumnName("user_created_at").IsRequired();

@@ -1,8 +1,6 @@
 using ApiEnglish.Application.CommandHandler.Auth;
 using ApiEnglish.Application.DTOs.Auth;
-using ApiEnglish.Application.Interfaces;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiEnglish.API.Controllers.AuthController
@@ -23,9 +21,9 @@ namespace ApiEnglish.API.Controllers.AuthController
         {
             var command = new RegisterCommand(
                 registerRequest.Name,
-                registerRequest.Username,
                 registerRequest.Email,
-                registerRequest.Password
+                registerRequest.Password,
+                registerRequest.ConfirmPassword
             );
             
             Object? result = await _mediator.Send(command);

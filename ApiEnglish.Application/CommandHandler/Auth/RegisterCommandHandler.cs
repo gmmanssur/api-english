@@ -18,12 +18,14 @@ public sealed class RegisterCommandHandler(IUserRepository userRepository,
         RegisterCommand request,
         CancellationToken cancellationToken)
     {
+        if(request.Password == null || request.ConfirmPassword == null || request.Password != request.ConfirmPassword)
+            throw new ArgumentException("Password and Confirm Password must be provided and match.");
+
         string hashedPassword = _passwordHasher.Hash(request.Password);
 
         User user = new()
         {
             Name = request.Name,
-            Username = request.Username,
             Email = request.Email,
             PasswordHash = hashedPassword,
             CreatedAt = DateTime.UtcNow,
@@ -34,7 +36,6 @@ public sealed class RegisterCommandHandler(IUserRepository userRepository,
         
         return new RegisterResponse { 
             Name = user.Name,
-            Username = user.Username,
             Email = user.Email
         };
     }

@@ -8,14 +8,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ApiEnglish.Infrastructure.Security;
 
-public class JwtTokenGenerator : IJwtTokenGenerator
+public class JwtTokenGenerator(IConfiguration configuration) : IJwtTokenGenerator
 {
-    private readonly IConfiguration _configuration;
-
-    public JwtTokenGenerator(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
+    private readonly IConfiguration _configuration = configuration;
 
     public string GenerateToken(User user)
     {
@@ -26,7 +21,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         {
             new(JwtRegisteredClaimNames.Sub, user.Sequencial.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email),
-            new(ClaimTypes.Name, user.Username)
+            new(ClaimTypes.Name, user.Name)
         };
 
         var credentials = new SigningCredentials(

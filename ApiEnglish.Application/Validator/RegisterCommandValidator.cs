@@ -24,21 +24,6 @@ namespace ApiEnglish.Application.Validator
                 .Matches(@"^[a-zA-ZÀ-ÿ\s'-]+$")
                 .WithMessage("Name contains invalid characters.");
 
-            RuleFor(x => x.Username)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty()
-                .MinimumLength(3)
-                .MaximumLength(20)
-                .Matches(@"^[a-zA-Z][a-zA-Z0-9_]*$")
-                    .WithMessage("Username must start with a letter and contain only letters, numbers or underscore.")
-                .Must((model, username) => username != model.Name)
-                    .WithMessage("Username cannot be the same as Name.")
-                .MustAsync(async (username, cancellation) =>
-                    !await _userRepository.UsernameExistsAsync(username)
-                )
-                .WithMessage("The username is already in use.");
-
-
             RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
@@ -61,7 +46,9 @@ namespace ApiEnglish.Application.Validator
                 .Must(p => p.Any(char.IsDigit))
                 .WithMessage("Password must contain a number.")
                 .Must(p => p.Any(c => !char.IsLetterOrDigit(c)))
-                .WithMessage("Password must contain a special character.");
+                .WithMessage("Password must contain a special character.")
+                .Must((command, password) => password == command.ConfirmPassword)
+                .WithMessage("Password and Confirm Password must be provided and match.");
         }
     }
 }

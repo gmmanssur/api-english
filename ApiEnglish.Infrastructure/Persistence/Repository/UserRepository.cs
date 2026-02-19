@@ -22,21 +22,11 @@ namespace ApiEnglish.Infrastructure.Persistence.Repository
             return _users.FirstOrDefault(u => u.Sequencial == id);
         }
 
-        public User? GetUserByUsername(string username)
-        {
-            return _users.FirstOrDefault(u => u.Username == username);
-        }
-
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
-
-        public Task<bool> UsernameExistsAsync(string username)
-        {
-            return _context.Users.AnyAsync(u => u.Username == username);
-        }
-
+        
         public Task<bool> EmailExistsAsync(string email)
         {
             return _context.Users.AnyAsync(u => u.Email == email);
