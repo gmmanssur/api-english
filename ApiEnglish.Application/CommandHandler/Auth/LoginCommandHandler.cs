@@ -19,22 +19,29 @@ public sealed class LoginCommandHandler(IUserRepository userRepository,
         LoginCommand request,
         CancellationToken cancellationToken)
     {
-        User? user = await _userRepository.GetUserByEmailAsync(request.Email);
-
-        if (user is null
-            || string.IsNullOrEmpty(user.PasswordHash)
-            || !_passwordHasher.Verify(request.Password, user.PasswordHash))
+        try
         {
-            throw new UnauthorizedAccessException("Invalid credentials");
+            User? user = await _userRepository.GetUserByEmailAsync(request.Email);
+
+            if (user is null
+                || string.IsNullOrEmpty(user.PasswordHash)
+                || !_passwordHasher.Verify(request.Password, user.PasswordHash))
+            {
+                throw new UnauthorizedAccessException("Invalid credentials");
+            }
+
+            string token = _jwtTokenGenerator.GenerateToken(user);
+
+            return new LoginResponse
+            {
+                AccessToken = token,
+                Name = user.Name,
+                Email = user.Email,
+            };
         }
-
-        string token = _jwtTokenGenerator.GenerateToken(user);
-
-        return new LoginResponse
+        catch (UnauthorizedAccessException ex)
         {
-            AccessToken = token,
-            Name = user.Name,
-            Email = user.Email,
-        };
+            throw new UnauthorizedAccessException(ex.Message);
+        }
     }
 }

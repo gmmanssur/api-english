@@ -1,5 +1,6 @@
 using ApiEnglish.Application.CommandHandler.Auth;
 using ApiEnglish.Application.DTOs.Auth;
+using ApiEnglish.Application.Helper.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,19 +17,36 @@ namespace ApiEnglish.API.Controllers.AuthController
         /// </summary>
         /// <returns></returns>
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Register(
             [FromBody]RegisterRequest registerRequest)
         {
-            var command = new RegisterCommand(
-                registerRequest.Name,
-                registerRequest.Email,
-                registerRequest.Password,
-                registerRequest.ConfirmPassword
-            );
-            
-            Object? result = await _mediator.Send(command);
+            try
+            {
+                var command = new RegisterCommand(
+                    registerRequest.Name,
+                    registerRequest.Email,
+                    registerRequest.Password,
+                    registerRequest.ConfirmPassword
+                );
+                
+                Object? result = await _mediator.Send(command);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                string filterMessage = ExceptionHelper.FilterExceptionMessage(ex.Message);
+                return Unauthorized(new { message = filterMessage });
+            }
+            catch (Exception ex)
+            {
+                string filterMessage = ExceptionHelper.FilterExceptionMessage(ex.Message);
+                return BadRequest(new { message = filterMessage });
+            }
         }
 
         /// <summary>
@@ -40,14 +58,27 @@ namespace ApiEnglish.API.Controllers.AuthController
         public async Task<ActionResult> Login(
             [FromBody]LoginRequest loginRequest)
         {
-            var command = new LoginCommand(
-                loginRequest.Email,
-                loginRequest.Password
-            );
+            try
+            {
+                var command = new LoginCommand(
+                    loginRequest.Email,
+                    loginRequest.Password
+                );
 
-            Object? result = await _mediator.Send(command);
+                Object? result = await _mediator.Send(command);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                string filterMessage = ExceptionHelper.FilterExceptionMessage(ex.Message);
+                return Unauthorized(new { message = filterMessage });
+            }
+            catch (Exception ex)
+            {
+                string filterMessage = ExceptionHelper.FilterExceptionMessage(ex.Message);
+                return BadRequest(new { message = filterMessage });
+            }
         }
     }
 }
